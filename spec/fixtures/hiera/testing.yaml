@@ -1,0 +1,30 @@
+---
+cron::daemon::ensure: running
+cron::daemon::enable: true
+cron::daemon::packages:
+    - cronie
+cron::daemon::service: crond
+
+mirrmaid::ensure:  'installed'
+
+mirrmaid::packages:
+    - mirrmaid
+
+mirrmaid::rsync_options:
+    - 'avHlz'
+
+mirrmaid::mirrors:
+    test:
+         branches:
+            test_branch:
+                source:     "rsync://fs01.example.com/pub/centos"
+                target:     /pub/centos
+                exclude:
+                    - '*.torrent'
+                    - '*sum.txt'
+                    - '.*'
+                    - 'dir_sizes'
+                    - 'filelist.gz'
+                include:
+                    - '.treeinfo'
+                    - '.treeinfo.signed'
